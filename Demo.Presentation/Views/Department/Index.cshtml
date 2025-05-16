@@ -4,10 +4,10 @@
 }
 
 <h1 class="my-3">All Departments</h1>
-<a class="btn btn-primary my-3" asp-controller="Departments" asp-action="Create">Create New Department</a>
+<a class="btn btn-primary my-3" asp-controller="Department" asp-action="Create">Create New Department</a>
 <br />
 
-@if(Model.Any())
+@if(Model?.Any()?? false)
 {
     //Department
     <table class="table table-striped table-hover mt-2">
@@ -43,3 +43,5 @@ else
         <h2 class="alert alert-info mt-2">No Departments Found !!</h2>
     </div>
 }
+
+
