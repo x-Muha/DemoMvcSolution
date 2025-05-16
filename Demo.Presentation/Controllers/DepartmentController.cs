@@ -131,5 +131,48 @@ namespace Demo.Presentation.Controllers
         }
 
         #endregion
+
+        #region Delete Department
+
+        //[HttpGet]
+        //public IActionResult Delete(int? id)
+        //{
+        //    if (!id.HasValue) return BadRequest();
+        //    var department = _departmentService.GetDepartmentById(id.Value);
+        //    if (department == null) return NotFound();
+        //    return View(department);
+        //}
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            if(id == 0) return BadRequest();
+            try
+            {
+                bool Deleted = _departmentService.DeleteDepartment(id);
+                if (Deleted) return RedirectToAction(nameof(Index));
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Dept is Not Deleted!");
+                    // redirect to Delete and sending id = this.id 
+                    return RedirectToAction(nameof(Delete), new{id});
+                }
+            }
+            catch (Exception e)
+            {
+                // Log Exception
+                if (_environment.IsDevelopment())
+                {// 1. Development => Log Error in Console and Return Same View 
+                    ModelState.AddModelError(string.Empty, e.Message);
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {// 2. Deployment => Log Error In File|Table in Db, Return error View
+                    _logger.LogError(e.Message);
+                    return View("ErrorView", e);
+                }
+            }
+        }
+
+        #endregion
     }
 }
