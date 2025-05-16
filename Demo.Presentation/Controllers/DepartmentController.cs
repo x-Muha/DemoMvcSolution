@@ -1,13 +1,14 @@
 ﻿using Demo.BusinessLogic.DataTransferObjects;
 using Demo.BusinessLogic.Services;
+using Demo.Presentation.Views.DepartmentViewModel;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 
 namespace Demo.Presentation.Controllers
 {
     public class DepartmentController(IDepartmentService _departmentService,
         ILogger<DepartmentController> _logger, IWebHostEnvironment _environment) : Controller
     {
+
         // BaseUrl/Departments/Index ->Default
         [HttpGet]
         public IActionResult Index()
@@ -33,15 +34,15 @@ namespace Demo.Presentation.Controllers
                     else
                     {
                         ModelState.AddModelError(string.Empty, "Dept not added!");
-                    //return view named Create as action name
+                        //return view named Create as action name
                         return View(departmentDTO);
-                    //but will direct to View of "Get" Create
+                        //but will direct to View of "Get" Create
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     // Log Exception
-                    if(_environment.IsDevelopment())
+                    if (_environment.IsDevelopment())
                     {// 1. Development => Log Error in Console and Return Same View 
                         ModelState.AddModelError(string.Empty, e.Message);
                     }
@@ -60,12 +61,75 @@ namespace Demo.Presentation.Controllers
         [HttpGet]
         public IActionResult Details(int? id) //nullable because Id field is optional in routing
         {
-            if(!id.HasValue) return BadRequest();// 400 error - if the id doesn't match a department in database
+            if (!id.HasValue) return BadRequest();// 400 error - if the id doesn't match a department in database
             //using Id.Value because it's nullable type
             var department = _departmentService.GetDepartmentById(id.Value);
             if (department is null) return NotFound();// 404 error - if someone link manually written with no id
             return View(department);//return to Details View and it renders department model sent
         }
+        #endregion
+
+        #region Edit Department
+
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (!id.HasValue) return BadRequest();
+            var department = _departmentService.GetDepartmentById(id.Value);
+            if (department is null) return NotFound();
+            // Manual Mapping DeptDetailsDTO to DeptEditViewModel
+            // No Need To Create factory, will use automapper in future
+            var departmentViewModel = new DepartmentEditViewModel()
+            {
+                Code = department.Code,
+                Name = department.Name,
+                Description = department.Description,
+                DateofCreation = department.CreatedOn
+            };
+            return View(departmentViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Edit([FromRoute]int id, DepartmentEditViewModel viewModel)
+        {       //From Route to prevent HTML injection <intput asp-for="Id">
+                //Because it will inject in FORM which has higher priority than Route
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // Manual Mapping DeptEditViewModel to UpdatedDeptDTO
+                    var UpdatedDepartment = new UpdatedDepartmentDTO()
+                    {
+                        Id = id,
+                        Code = viewModel.Code,
+                        Name = viewModel.Name,
+                        Description = viewModel.Description,
+                        DateOfCreation = viewModel.DateofCreation
+                    };
+                    int result = _departmentService.UpdateDepartment(UpdatedDepartment);
+                    if (result > 0) return RedirectToAction(nameof(Index));
+                    else
+                    {   // not recieved yet
+                        ModelState.AddModelError(string.Empty, "Dept Not Updated !");
+                    }
+                }
+                catch (Exception e) //Error inside Database while updating
+                {
+                    // Log Exception
+                    if (_environment.IsDevelopment())
+                    {// 1. Development => Log Error in Console and Return Same View 
+                        ModelState.AddModelError(string.Empty, e.Message);
+                    }
+                    else
+                    {// 2. Deployment => Log Error In File|Table in Db, Return error View
+                        _logger.LogError(e.Message);
+                        return View("ErrorView", e);
+                    }
+                }
+            }
+            return View(viewModel);
+        }
+
         #endregion
     }
 }
