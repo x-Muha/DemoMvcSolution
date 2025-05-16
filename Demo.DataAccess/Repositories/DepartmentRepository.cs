@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Demo.DataAccess.Data.Contexts;
+using Demo.DataAccess.Models.DepartmentModel;
 using Microsoft.EntityFrameworkCore.Design.Internal;
 
 namespace Demo.DataAccess.Repositories
