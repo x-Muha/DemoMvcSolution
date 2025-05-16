@@ -55,5 +55,17 @@ namespace Demo.Presentation.Controllers
             return View(departmentDTO);
         }
         #endregion
+
+        #region Details of Department
+        [HttpGet]
+        public IActionResult Details(int? id) //nullable because Id field is optional in routing
+        {
+            if(!id.HasValue) return BadRequest();// 400 error - if the id doesn't match a department in database
+            //using Id.Value because it's nullable type
+            var department = _departmentService.GetDepartmentById(id.Value);
+            if (department is null) return NotFound();// 404 error - if someone link manually written with no id
+            return View(department);//return to Details View and it renders department model sent
+        }
+        #endregion
     }
 }
