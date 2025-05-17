@@ -34,5 +34,13 @@ namespace Demo.Presentation.Controllers
             }
             return View(employeeDTO);
         }
+
+        [HttpGet]
+        public IActionResult Details(int? id)
+        {
+            if (!id.HasValue) return BadRequest();
+            var employee = _employeeService.GetEmployeeDetails(id.Value);
+            return employee is null? NotFound() : View(employee);
+        }
     }
 }
