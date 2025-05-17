@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Demo.BusinessLogic.DataTransferObjects;
-using Demo.DataAccess.Models;
+using Demo.DataAccess.Models.DepartmentModel;
 
 namespace Demo.BusinessLogic.Factories
 {
@@ -16,7 +16,7 @@ namespace Demo.BusinessLogic.Factories
             {
                 DeptId = D.Id,
                 Name = D.Name,
-                Description = D.Description,
+                Description = D.Description!,
                 Code = D.Code,
                 DateOfCreation = DateOnly.FromDateTime(D.CreatedOn)
             };

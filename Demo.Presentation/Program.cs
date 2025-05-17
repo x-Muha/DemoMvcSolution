@@ -1,7 +1,8 @@
 using Demo.BusinessLogic.Services;
 using Demo.DataAccess.Data.Contexts;
 using Demo.DataAccess.Models;
-using Demo.DataAccess.Repositories;
+using Demo.DataAccess.Repositories.Classes;
+using Demo.DataAccess.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Presentation
@@ -25,6 +26,7 @@ namespace Demo.Presentation
             //builder.Services.AddScoped<DepartmentRepository>(); // Enable DI for DepartmentService 
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
