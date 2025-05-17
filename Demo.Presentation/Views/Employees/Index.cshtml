@@ -29,13 +29,12 @@
             @foreach (var employee in Model)
             {
                 <tr>
-
                     <td>@employee.Name</td>
                     <td>@employee.Email</td>
                     <td>@employee.EmpType</td>
                     <td>@employee.Age</td>
-                    <td>@Html.DisplayFor(E=>employee.Salary)</td>
-                    <td>
+                    <td>@Html.DisplayFor(E=>employee.Salary)</td>@*To Show Salary as format of C# not a text*@
+                    <td>                                    
                         <i class="fa-solid @(employee.IsActive? "fa-circle-check text-success" : "fa-circle-mark text-danger")"></i>
                     </td>
                     <td>@employee.EmpGender</td>
