@@ -20,8 +20,8 @@ namespace Demo.BusinessLogic.Factories
                 IsActive = employee.IsActive,
                 Salary = employee.Salary,
                 Email = employee.Email,
-                Gender = employee.Gender.ToString(),
-                EmployeeType = employee.EmployeeType.ToString(),
+                EmpGender= employee.Gender.ToString(),
+                EmpType = employee.EmployeeType.ToString(),
             };
         }
 

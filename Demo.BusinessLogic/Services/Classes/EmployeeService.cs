@@ -14,7 +14,7 @@ namespace Demo.BusinessLogic.Services
 {
     public class EmployeeService(IEmployeeRepository _employeeRepository,IMapper _mapper) :IEmployeeService
     {
-        public IEnumerable<EmployeeDTO> GetAll(bool WithTracking = false)
+        public IEnumerable<EmployeeDTO> GetAllEmployees(bool WithTracking = false)
         {
             var employees = _employeeRepository.GetAll(WithTracking);
             //Auto Mapping
