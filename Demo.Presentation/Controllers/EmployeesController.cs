@@ -86,8 +86,29 @@ namespace Demo.Presentation.Controllers
                 return View("ErrorView", e);
             }
             return View(employeeDTO);
-            
         }
 
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            if(id==0) return BadRequest();
+            try
+            {
+                bool Deleted = _employeeService.DeleteEmployee(id);
+                if (Deleted) return RedirectToAction(nameof(Index));
+                ModelState.AddModelError(string.Empty, "Emp Not Deleted");
+                return RedirectToAction(nameof(Delete), new { id });
+            }
+            catch (Exception e)
+            {
+                if (environment.IsDevelopment())
+                {
+                    ModelState.AddModelError(string.Empty, e.Message);
+                    return RedirectToAction(nameof(Index));
+                }
+                else Logger.LogError(e.Message);
+                return View("ErrorView", e);
+            }    
+        }
     }
 }

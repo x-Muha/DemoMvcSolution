@@ -16,9 +16,9 @@ namespace Demo.DataAccess.Repositories.Classes
         public IEnumerable<TEntity> GetAll(bool WithTracking = false)//Default
         {
             if (WithTracking)
-                return _dbContext.Set<TEntity>().ToList();
+                return _dbContext.Set<TEntity>().Where(E=>E.IsDeleted != true).ToList();
             else
-                return _dbContext.Set<TEntity>().AsNoTracking().ToList();}
+                return _dbContext.Set<TEntity>().Where(E => E.IsDeleted != true).AsNoTracking().ToList();}
         // Get By Id                            "using Fat Arrow to return"
         public TEntity? GetById(int id) => _dbContext.Set<TEntity>().Find(id);
         public int Update(TEntity entity)// Update
