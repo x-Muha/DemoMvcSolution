@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Demo.DataAccess.Data.Contexts;
@@ -16,9 +17,9 @@ namespace Demo.DataAccess.Repositories.Classes
         public IEnumerable<TEntity> GetAll(bool WithTracking = false)//Default
         {
             if (WithTracking)
-                return _dbContext.Set<TEntity>().ToList();
+                return _dbContext.Set<TEntity>().Where(E=>E.IsDeleted != true).ToList();
             else
-                return _dbContext.Set<TEntity>().AsNoTracking().ToList();}
+                return _dbContext.Set<TEntity>().Where(E => E.IsDeleted != true).AsNoTracking().ToList();}
         // Get By Id                            "using Fat Arrow to return"
         public TEntity? GetById(int id) => _dbContext.Set<TEntity>().Find(id);
         public int Update(TEntity entity)// Update
@@ -33,5 +34,11 @@ namespace Demo.DataAccess.Repositories.Classes
         {
             _dbContext.Set<TEntity>().Add(entity);
             return _dbContext.SaveChanges();}
+
+        public IEnumerable<TResult> GetAll<TResult>(Expression<Func<TEntity, TResult>> selector)
+        {
+            return _dbContext.Set<TEntity>().Where(E => E.IsDeleted != true)
+                             .Select(selector).ToList();// to imediate execute
+        }
     }
 }

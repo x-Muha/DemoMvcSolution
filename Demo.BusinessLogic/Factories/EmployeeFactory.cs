@@ -20,8 +20,8 @@ namespace Demo.BusinessLogic.Factories
                 IsActive = employee.IsActive,
                 Salary = employee.Salary,
                 Email = employee.Email,
-                Gender = employee.Gender,
-                EmployeeType = employee.EmployeeType,
+                EmpGender= employee.Gender.ToString(),
+                EmpType = employee.EmployeeType.ToString(),
             };
         }
 
@@ -37,49 +37,53 @@ namespace Demo.BusinessLogic.Factories
                 Salary = employee.Salary,
                 Email = employee.Email,
                 PhoneNumber = employee.PhoneNumber,
-                HiringDate = employee.HiringDate,
-                Gender = employee.Gender,
-                EmployeeType = employee.EmployeeType,
-            };
-        }
-        public static Employee ToEntity(this CreatedEmployeeDTO createdEmployee)
-        {
-            return new Employee()
-            {
-                Name = createdEmployee.Name,
-                Age = createdEmployee.Age,
-                Address = createdEmployee.Address,
-                IsActive = createdEmployee.IsActive,
-                Salary = createdEmployee.Salary,
-                Email = createdEmployee.Email,
-                PhoneNumber = createdEmployee.PhoneNumber,
-                HiringDate = createdEmployee.HiringDate,
-                Gender = createdEmployee.Gender,
-                EmployeeType = createdEmployee.EmployeeType,
+                HiringDate = DateOnly.FromDateTime(employee.HiringDate),
+                Gender = employee.Gender.ToString(),
+                EmployeeType = employee.EmployeeType.ToString(),
                 CreatedBy = 1,
-                LastModifiedBy= 1
-
+                CreatedOn = employee.CreatedOn,
+                LastModifiedBy = 1,
+                LastModifiedOn = employee.LastModifiedOn
             };
         }
-        public static Employee ToEntity(this UpdatedEmployee updatedEmployee)
-        {
-            return new Employee()
-            {
-                Name = updatedEmployee.Name,
-                Age = updatedEmployee.Age,
-                Address = updatedEmployee.Address,
-                IsActive = updatedEmployee.IsActive,
-                Salary = updatedEmployee.Salary,
-                Email = updatedEmployee.Email,
-                PhoneNumber = updatedEmployee.PhoneNumber,
-                HiringDate = updatedEmployee.HiringDate,
-                Gender = updatedEmployee.Gender,
-                EmployeeType = updatedEmployee.EmployeeType,
-                CreatedBy = 1,
-                LastModifiedBy= 1
+        //public static Employee ToEntity(this CreatedEmployeeDTO createdEmployee)
+        //{
+        //    return new Employee()
+        //    {
+        //        Name = createdEmployee.Name,
+        //        Age = createdEmployee.Age,
+        //        Address = createdEmployee.Address,
+        //        IsActive = createdEmployee.IsActive,
+        //        Salary = createdEmployee.Salary,
+        //        Email = createdEmployee.Email,
+        //        PhoneNumber = createdEmployee.PhoneNumber,
+        //        HiringDate = createdEmployee.HiringDate,
+        //        Gender = createdEmployee.Gender,
+        //        EmployeeType = createdEmployee.EmployeeType,
+        //        CreatedBy = 1,
+        //        LastModifiedBy= 1
 
-            };
-        }
+        //    };
+        //}
+        //public static Employee ToEntity(this UpdatedEmployee updatedEmployee)
+        //{
+        //    return new Employee()
+        //    {
+        //        Name = updatedEmployee.Name,
+        //        Age = updatedEmployee.Age,
+        //        Address = updatedEmployee.Address,
+        //        IsActive = updatedEmployee.IsActive,
+        //        Salary = updatedEmployee.Salary,
+        //        Email = updatedEmployee.Email,
+        //        PhoneNumber = updatedEmployee.PhoneNumber,
+        //        HiringDate = updatedEmployee.HiringDate,
+        //        Gender = updatedEmployee.Gender,
+        //        EmployeeType = updatedEmployee.EmployeeType,
+        //        CreatedBy = 1,
+        //        LastModifiedBy= 1
+
+        //    };
+        //}
         
     }
 }

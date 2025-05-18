@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Demo.BusinessLogic.DataTransferObjects;
+using Demo.BusinessLogic.DataTransferObjects.DepartmentDTOs;
 using Demo.BusinessLogic.Factories;
 using Demo.DataAccess.Repositories.Interfaces;
 
