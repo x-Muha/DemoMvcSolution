@@ -1,0 +1,24 @@
+﻿@model DepartmentViewModel
+
+
+<div class="form-group mb-3">
+    @* <label class="form-label" for="Code"></label> *@ 
+    @* <input id="Code" name="Code" type="text" /> *@
+    <label class="form-label" asp-for="Code"></label>@*Set Name*@
+    <input asp-for="Code" class="form-control" />@*Allow auto binding*@
+    @*Validation for Required Attribute -> Respond with error msg*@
+    <span asp-validation-for="Code" class="text-danger"></span>
+</div>
+<div class="form-group mb-3">
+    <label class="form-label" asp-for="Name"></label>
+    <input asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+<div class="form-group mb-3">
+    <label class="form-label" asp-for="Description"></label>
+    <textarea class="form-control" asp-for="Description"></textarea>
+</div>
+<div class="form-group mb-3">
+    <label class="form-label" asp-for="DateOfCreation"></label>
+    <input type="date" asp-for="DateOfCreation" class="form-control" />
+</div>
