@@ -3,7 +3,23 @@
     ViewData["Title"] = "Index";
 }
 
+
+@{
+	var Dept = ViewData["Message1"] as DepartmentDTO;
+}
+<div class="alert alert-success">
+	@Dept?.Name
+	<br />
+	@ViewBag.Message2.Name
+</div>
+
+
+
+
+
 <h1 class="my-3">All Departments</h1>
+<br />
+<br />
 <a class="btn btn-primary my-3" asp-controller="Department" asp-action="Create">Create New Department</a>
 <br />
 

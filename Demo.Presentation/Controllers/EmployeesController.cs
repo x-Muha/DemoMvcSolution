@@ -51,7 +51,7 @@ namespace Demo.Presentation.Controllers
                     else Logger.LogError(e.Message);
                 }
             }
-            return View(employeeDTO);
+            return View(viewModel);
         }
 
         [HttpGet]

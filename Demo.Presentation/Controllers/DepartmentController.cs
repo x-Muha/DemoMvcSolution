@@ -14,6 +14,10 @@ namespace Demo.Presentation.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            ViewData["Message1"] = new DepartmentDTO() { Name= "Hello From ViewData" };
+            ViewBag.Message2 = new DepartmentDTO() { Name = "Hello From ViewBag" };
+
+
             var departments = _departmentService.GetAllDepartmetns();
             return View(departments); //3rd overload that takes a
         }                             //model and render its data
