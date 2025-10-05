@@ -18,18 +18,13 @@ namespace Demo.BusinessLogic.Services
         {
             // using the new overload GetAll<TResult>(Expression<Func<TEntity, TResult>> selector)
 
-            var employeeDTOs = _employeeRepository.GetAll(E => new EmployeeDTO()
-            {
-                Id = E.Id,
-                Name = E.Name,
-                Salary = E.Salary,
-            }).Where(E=>E.Age>25);
-            return employeeDTOs;
+            var employees = _employeeRepository.GetAll();
+            var employeesDTO = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDTO>>(employees);
+            return employeesDTO;
 
             //var employees = _employeeRepository.GetAll(WithTracking);
             ////Auto Mapping
             ////Source: Employee | Destination: EmployeeDTO       || 1st Overload <Src,Dest>
-            //var employeesDTO = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDTO>>(employees); 
             //return employeesDTO;
         }
         public EmployeeDetailsDTO? GetEmployeeDetails(int id)

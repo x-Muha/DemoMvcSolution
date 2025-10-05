@@ -1,7 +1,7 @@
 ﻿using Demo.BusinessLogic.DataTransferObjects;
 using Demo.BusinessLogic.DataTransferObjects.DepartmentDTOs;
 using Demo.BusinessLogic.Services;
-using Demo.Presentation.Views.DepartmentViewModel;
+using Demo.Presentation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Presentation.Controllers
@@ -22,21 +22,29 @@ namespace Demo.Presentation.Controllers
         [HttpGet]
         public IActionResult Create() => View();
         [HttpPost]
-        public IActionResult Create(CreatedDepartmentDTO departmentDTO)
+        public IActionResult Create(DepartmentViewModel viewModel)
         {
             //ModelState is a Inherited property from Controller
             if (ModelState.IsValid)//Server Side Validation
             {
                 try
                 {
-                    int result = _departmentService.AddDepartment(departmentDTO);
+                    var createdDept = new CreatedDepartmentDTO()
+                    {
+                        Name = viewModel.Name,
+                        Code = viewModel.Code,
+                        Description = viewModel.Description,
+                        DateOfCreation = viewModel.DateOfCreation
+                    };
+
+                    int result = _departmentService.AddDepartment(createdDept);
                     //Data base insertion validation
                     if (result > 0) return RedirectToAction(nameof(Index));
                     else
                     {
                         ModelState.AddModelError(string.Empty, "Dept not added!");
                         //return view named Create as action name
-                        return View(departmentDTO);
+                        return View(viewModel);
                         //but will direct to View of "Get" Create
                     }
                 }
@@ -54,7 +62,7 @@ namespace Demo.Presentation.Controllers
                 }
             }
             // default return
-            return View(departmentDTO);
+            return View(viewModel);
         }
         #endregion
 
@@ -80,18 +88,18 @@ namespace Demo.Presentation.Controllers
             if (department is null) return NotFound();
             // Manual Mapping DeptDetailsDTO to DeptEditViewModel
             // No Need To Create factory, will use automapper in future
-            var departmentViewModel = new DepartmentEditViewModel()
+            var departmentViewModel = new DepartmentViewModel()
             {
                 Code = department.Code,
                 Name = department.Name,
                 Description = department.Description,
-                DateofCreation = department.CreatedOn
+                DateOfCreation = department.CreatedOn
             };
             return View(departmentViewModel);
         }
 
         [HttpPost]
-        public IActionResult Edit([FromRoute]int id, DepartmentEditViewModel viewModel)
+        public IActionResult Edit([FromRoute]int id, DepartmentViewModel viewModel)
         {       //From Route to prevent HTML injection <intput asp-for="Id">
                 //Because it will inject in FORM which has higher priority than Route
             if (ModelState.IsValid)
@@ -105,7 +113,7 @@ namespace Demo.Presentation.Controllers
                         Code = viewModel.Code,
                         Name = viewModel.Name,
                         Description = viewModel.Description,
-                        DateOfCreation = viewModel.DateofCreation
+                        DateOfCreation = viewModel.DateOfCreation
                     };
                     int result = _departmentService.UpdateDepartment(UpdatedDepartment);
                     if (result > 0) return RedirectToAction(nameof(Index));
