@@ -17,6 +17,7 @@
                 <th>@Html.DisplayNameFor(e => e.Email)</th>
                 <th>@Html.DisplayNameFor(e => e.EmpType)</th>
                 <th>@Html.DisplayNameFor(e => e.Age)</th>
+                <th>@Html.DisplayNameFor(e => e.Department)</th>
                 <th>@Html.DisplayNameFor(e => e.Salary)</th>
                 <th>@Html.DisplayNameFor(e => e.IsActive)</th>
                 <th>@Html.DisplayNameFor(e => e.EmpGender)</th>
@@ -33,6 +34,7 @@
                     <td>@employee.Email</td>
                     <td>@employee.EmpType</td>
                     <td>@employee.Age</td>
+                    <td>@(string.IsNullOrEmpty(employee.Department) ? "No Dept" : employee.Department)</td>
                     <td>@Html.DisplayFor(E=>employee.Salary)</td>@*To Show Salary as format of C# not a text*@
                     <td>                                    
                         <i class="fa-solid @(employee.IsActive? "fa-circle-check text-success" : "fa-circle-mark text-danger")"></i>
