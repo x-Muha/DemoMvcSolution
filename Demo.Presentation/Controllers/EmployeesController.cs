@@ -1,4 +1,5 @@
 ﻿using Demo.BusinessLogic.DataTransferObjects.EmployeeDTOs;
+using Demo.BusinessLogic.Services;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Models.EmployeeModel;
 using Demo.DataAccess.Models.Shared.Enums;
@@ -35,7 +36,8 @@ namespace Demo.Presentation.Controllers
                         IsActive = viewModel.IsActive,
                         EmployeeType = viewModel.EmployeeType,
                         Gender = viewModel.Gender,
-                        HiringDate = viewModel.HiringDate
+                        HiringDate = viewModel.HiringDate,
+                        DepartmentId = viewModel.DepartmentId,
                     };
 
 
@@ -68,7 +70,7 @@ namespace Demo.Presentation.Controllers
             if (!id.HasValue) return BadRequest();
             var employee = _employeeService.GetEmployeeDetails(id.Value);
             if(employee is null) return NotFound();
-            var employeeDTO = new EmployeeViewModel()
+            var viewModel = new EmployeeViewModel()
             {
                 Name = employee.Name,
                 Salary = employee.Salary,
@@ -81,7 +83,7 @@ namespace Demo.Presentation.Controllers
                 Gender = Enum.Parse<Gender>(employee.Gender),
                 EmployeeType = Enum.Parse<EmployeeType>(employee.EmployeeType)
             };
-            return View(employeeDTO);
+            return View(viewModel);
         }
         [HttpPost]
         public IActionResult Edit([FromRoute]int? id, EmployeeViewModel viewModel)
@@ -92,7 +94,7 @@ namespace Demo.Presentation.Controllers
             {
                 var updateEmp = new UpdatedEmployeeDTO()
                 {
-                    Id = viewModel.Id,
+                    Id = id.Value,
                     Name = viewModel.Name,
                     Salary = viewModel.Salary,
                     Address = viewModel.Address,
@@ -102,7 +104,8 @@ namespace Demo.Presentation.Controllers
                     IsActive = viewModel.IsActive,
                     EmployeeType = viewModel.EmployeeType,
                     Gender = viewModel.Gender,
-                    HiringDate = viewModel.HiringDate
+                    HiringDate = viewModel.HiringDate,
+                    DepartmentId = viewModel.DepartmentId
                 };
 
 

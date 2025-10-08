@@ -14,11 +14,14 @@ namespace Demo.Presentation.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            ViewData["Message1"] = new DepartmentDTO() { Name= "Hello From ViewData" };
-            ViewBag.Message2 = new DepartmentDTO() { Name = "Hello From ViewBag" };
+            #region ViewBag & View Data Test
+            //ViewData["Message1"] = new DepartmentDTO() { Name = "Hello From ViewData" };
+            //ViewBag.Message2 = new DepartmentDTO() { Name = "Hello From ViewBag" };
+
+            #endregion 
 
 
-            var departments = _departmentService.GetAllDepartmetns();
+            var departments = _departmentService.GetAllDepartments();
             return View(departments); //3rd overload that takes a
         }                             //model and render its data
 
@@ -43,14 +46,13 @@ namespace Demo.Presentation.Controllers
 
                     int result = _departmentService.AddDepartment(createdDept);
                     //Data base insertion validation
-                    if (result > 0) return RedirectToAction(nameof(Index));
+                    string Message;
+                    if (result > 0)
+                        Message = $"Department {createdDept.Name} is Created Succefully !";
                     else
-                    {
-                        ModelState.AddModelError(string.Empty, "Dept not added!");
-                        //return view named Create as action name
-                        return View(viewModel);
-                        //but will direct to View of "Get" Create
-                    }
+                        Message = $"Department {createdDept.Name} is Not Created !";
+                    TempData["Message"] = Message;
+                    return RedirectToAction(nameof(Index)); 
                 }
                 catch (Exception e)
                 {

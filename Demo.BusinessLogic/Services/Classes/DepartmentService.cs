@@ -13,7 +13,7 @@ namespace Demo.BusinessLogic.Services
     public class DepartmentService(IDepartmentRepository _departmentRepository) : IDepartmentService
     {
         // Get All Departments
-        public IEnumerable<DepartmentDTO> GetAllDepartmetns()
+        public IEnumerable<DepartmentDTO> GetAllDepartments()
         {
             var departments = _departmentRepository.GetAll();
             // Using Extension Method
