@@ -40,5 +40,12 @@ namespace Demo.DataAccess.Repositories.Classes
             return _dbContext.Set<TEntity>().Where(E => E.IsDeleted != true)
                              .Select(selector).ToList();// to imediate execute
         }
+
+        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> Predicate)
+        {
+            return _dbContext.Set<TEntity>()
+                             .Where(Predicate)
+                             .ToList();
+        }
     }
 }

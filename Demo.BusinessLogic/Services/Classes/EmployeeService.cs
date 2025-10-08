@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -14,13 +15,17 @@ namespace Demo.BusinessLogic.Services
 {
     public class EmployeeService(IEmployeeRepository _employeeRepository,IMapper _mapper) :IEmployeeService
     {
-        public IEnumerable<EmployeeDTO> GetAllEmployees(bool WithTracking = false)
+        public IEnumerable<EmployeeDTO> GetAllEmployees(string? EmployeeSearchName)
         {
-            // using the new overload GetAll<TResult>(Expression<Func<TEntity, TResult>> selector)
 
-            var employees = _employeeRepository.GetAll();
+            IEnumerable<Employee> employees;
+            if(string.IsNullOrEmpty(EmployeeSearchName))
+                employees = _employeeRepository.GetAll();
+            else
+                employees = _employeeRepository.GetAll(E => E.Name.ToLower().Contains(EmployeeSearchName.ToLower()));
             var employeesDTO = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDTO>>(employees);
             return employeesDTO;
+            // using the new overload GetAll<TResult>(Expression<Func<TEntity, TResult>> selector)
 
             //var employees = _employeeRepository.GetAll(WithTracking);
             ////Auto Mapping
