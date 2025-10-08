@@ -10,12 +10,12 @@ using Demo.DataAccess.Repositories.Interfaces;
 
 namespace Demo.BusinessLogic.Services
 {
-    public class DepartmentService(IDepartmentRepository _departmentRepository) : IDepartmentService
+    public class DepartmentService(IUnitOfWork _unitOfWork) : IDepartmentService
     {
         // Get All Departments
-        public IEnumerable<DepartmentDTO> GetAllDepartmetns()
+        public IEnumerable<DepartmentDTO> GetAllDepartments()
         {
-            var departments = _departmentRepository.GetAll();
+            var departments = _unitOfWork.departmentRepository.GetAll();
             // Using Extension Method
             return departments.Select(D => D.ToDepartmentDTO());
         }
@@ -23,7 +23,7 @@ namespace Demo.BusinessLogic.Services
         // Get Department By Id
         public DepartmentDetailsDTO? GetDepartmentById(int id)
         {
-            var department = _departmentRepository.GetById(id);
+            var department = _unitOfWork.departmentRepository.GetById(id);
             // Using Extension method
             return department is null ? null : department.ToDepartmentDetailsDTO();
         }
@@ -32,20 +32,25 @@ namespace Demo.BusinessLogic.Services
         public int AddDepartment(CreatedDepartmentDTO departmentDTO)
         {
             var department = departmentDTO.ToEntity();
-            return _departmentRepository.Add(department);
+            _unitOfWork.departmentRepository.Add(department);
+            return _unitOfWork.SaveChanges();
         }
 
         // Update Department    Single Line with Fat Arrow
         public int UpdateDepartment(UpdatedDepartmentDTO departmentDTO)
-        => _departmentRepository.Update(departmentDTO.ToEntity());
+        {
+            _unitOfWork.departmentRepository.Update(departmentDTO.ToEntity());
+            return _unitOfWork.SaveChanges();
+        }
 
         // Delete Department
         public bool DeleteDepartment(int id)
         {
-            var dept = _departmentRepository.GetById(id);
+            var dept = _unitOfWork.departmentRepository.GetById(id);
             if (dept is null) return false;
-            int res = _departmentRepository.Remove(dept);
-            return res > 0 ? true : false;
+            _unitOfWork.departmentRepository.Remove(dept);
+
+            return _unitOfWork.SaveChanges() > 0 ? true : false;
         }
     }
 }

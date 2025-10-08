@@ -30,6 +30,7 @@ namespace Demo.Presentation
                 //options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
                 //options.UseSqlServer(builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"]);
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                options.UseLazyLoadingProxies();
             }); // Same As AddScoped but with options
 
             //builder.Services.AddScoped<DepartmentRepository>(); // Enable DI for DepartmentService 
@@ -37,6 +38,7 @@ namespace Demo.Presentation
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             //Enable DI for Auto Mapper
             //1. if Mapper is private we create public Ref class in it's project
             //builder.Services.AddAutoMapper(typeof(ProjectReference).Assembly);

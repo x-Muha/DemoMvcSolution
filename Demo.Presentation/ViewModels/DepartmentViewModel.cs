@@ -1,10 +1,10 @@
-﻿namespace Demo.Presentation.Views.DepartmentViewModel
+﻿namespace Demo.Presentation.ViewModels
 {
-    public class DepartmentEditViewModel
+    public class DepartmentViewModel
     {
         public string Name { get; set; } = string.Empty;
         public string Code { get; set; } = string.Empty;
         public string? Description { get; set; }
-        public DateOnly DateofCreation{ get; set; }
+        public DateOnly DateOfCreation { get; set; }
     }
 }
