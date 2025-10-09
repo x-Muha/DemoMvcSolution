@@ -14,7 +14,7 @@ using Demo.DataAccess.Repositories.Interfaces;
 
 namespace Demo.BusinessLogic.Services
 {
-    public class EmployeeService(IUnitOfWork _unitOfWork,IMapper _mapper, IAttachmentService attachmentService) :IEmployeeService
+    public class EmployeeService(IUnitOfWork _unitOfWork,IMapper _mapper, IAttachmentService _attachmentService) :IEmployeeService
     {
         public IEnumerable<EmployeeDTO> GetAllEmployees(string? EmployeeSearchName)
         {
@@ -43,12 +43,18 @@ namespace Demo.BusinessLogic.Services
         public int AddEmployee(CreatedEmployeeDTO employeeDTO)
         {
             var employee = _mapper.Map<CreatedEmployeeDTO,Employee>(employeeDTO);
+            if(employeeDTO.Image is not null)
+                employee.ImageName = _attachmentService.Upload(employeeDTO.Image, "Images");
             _unitOfWork.employeeRepository.Add(employee);
             return _unitOfWork.SaveChanges();
         }
         public int UpdateEmployee(UpdatedEmployeeDTO employeeDTO)
         {
-            _unitOfWork.employeeRepository.Update(_mapper.Map<UpdatedEmployeeDTO, Employee>(employeeDTO));
+            var employee = _mapper.Map<UpdatedEmployeeDTO, Employee>(employeeDTO);
+            if (employeeDTO.Image is not null)
+                employee.ImageName = _attachmentService.Upload(employeeDTO.Image, "Images");
+            _unitOfWork.employeeRepository.Update(employee);
+
             return _unitOfWork.SaveChanges();
         }
         public bool DeleteEmployee(int id) //Soft Delete

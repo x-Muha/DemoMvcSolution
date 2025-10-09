@@ -38,6 +38,7 @@ namespace Demo.Presentation.Controllers
                         Gender = viewModel.Gender,
                         HiringDate = viewModel.HiringDate,
                         DepartmentId = viewModel.DepartmentId,
+                        Image = viewModel.Image
                     };
 
 
@@ -106,7 +107,8 @@ namespace Demo.Presentation.Controllers
                     EmployeeType = viewModel.EmployeeType,
                     Gender = viewModel.Gender,
                     HiringDate = viewModel.HiringDate,
-                    DepartmentId = viewModel.DepartmentId
+                    DepartmentId = viewModel.DepartmentId,
+                    Image = viewModel.Image
                 };
 
 

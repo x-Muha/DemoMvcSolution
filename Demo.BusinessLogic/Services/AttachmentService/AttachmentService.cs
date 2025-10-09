@@ -24,7 +24,7 @@ namespace Demo.BusinessLogic.Services.AttachmentService
             //var folderPath = $"{Directory.GetCurrentDirectory()}/wwwroot/Files/{folderName}";
             var folderPath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot","Files",folderName);
             //4.Make Attachment Name Unique-- GUID
-            var fileName = $"{Guid.NewGuid()}_{file.Name}";
+            var fileName = $"{Guid.NewGuid()}_{file.Name}.{extension}";
             //5.Get File Path
             var filePath = Path.Combine(folderPath, fileName);
             //6.Create File Stream To Copy File[Unmanaged]
