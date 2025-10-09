@@ -1,11 +1,14 @@
+using System.Security.Principal;
 using Demo.BusinessLogic.Profiles;
 using Demo.BusinessLogic.Services;
 using Demo.BusinessLogic.Services.AttachmentService;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Contexts;
 using Demo.DataAccess.Models;
+using Demo.DataAccess.Models.IdentityModel;
 using Demo.DataAccess.Repositories.Classes;
 using Demo.DataAccess.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -46,6 +49,10 @@ namespace Demo.Presentation
             //builder.Services.AddAutoMapper(typeof(ProjectReference).Assembly);
             //2. if Mapper is public we add add Profile without getting it's Assembly
             builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
+
+            builder.Services.AddIdentity<ApplicationUser,IdentityRole>(/*additional options*/)
+                   .AddEntityFrameworkStores<ApplicationDbContext>();       //for validation
+
             #endregion
 
             var app = builder.Build();
