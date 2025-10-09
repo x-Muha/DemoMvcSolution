@@ -1,5 +1,6 @@
 using Demo.BusinessLogic.Profiles;
 using Demo.BusinessLogic.Services;
+using Demo.BusinessLogic.Services.AttachmentService;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Contexts;
 using Demo.DataAccess.Models;
@@ -39,6 +40,7 @@ namespace Demo.Presentation
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddTransient<IAttachmentService,AttachmentService>();
             //Enable DI for Auto Mapper
             //1. if Mapper is private we create public Ref class in it's project
             //builder.Services.AddAutoMapper(typeof(ProjectReference).Assembly);
