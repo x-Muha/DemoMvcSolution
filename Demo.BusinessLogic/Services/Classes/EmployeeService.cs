@@ -37,7 +37,7 @@ namespace Demo.BusinessLogic.Services
         {
             var employee = _unitOfWork.employeeRepository.GetById(id);
             //Auto Mapping || 2nd Overload <Dest>(object) will detect Src from object (bad performance)
-            //return employee is null? null : _mapper.Map<EmployeeDetailsDTO>(employee);
+            //return employee is null? null : _mapper.Map<EmployeeDetailsDTO>(employee); 
             return employee is null? null : _mapper.Map<Employee,EmployeeDetailsDTO>(employee);
         }
         public int AddEmployee(CreatedEmployeeDTO employeeDTO)
