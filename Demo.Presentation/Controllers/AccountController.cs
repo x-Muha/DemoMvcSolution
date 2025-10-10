@@ -61,6 +61,14 @@ namespace Demo.Presentation.Controllers
             return View(viewModel); 
         }
         #endregion
+        #region LogOut
+        [HttpGet]
+        public new IActionResult SignOut()
+        {
+            _signInManager.SignOutAsync();
+            return RedirectToAction("Login");
+        }
+        #endregion
     }
 }
  
