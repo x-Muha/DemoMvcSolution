@@ -86,15 +86,19 @@ namespace Demo.Presentation.Controllers
                         To = viewModel.Email,
                         Subject = "Reset Password",
                         // Body = link to an action method in the controller with Tocken
-                        Body = "Reset Password Link"
+                        Body = "Reset Password Link" /*Not Done Yet*/
                     };
+                    EmailSettings.SendEmail(email);
+                    return RedirectToAction(nameof(CheckYourInbox));
                 }
-            } 
+            }
             else ModelState.AddModelError(string.Empty, "Invalid Operation");
             return View(nameof(ForgetPassword), viewModel);
 
         }
         #endregion
+        [HttpGet]
+        public IActionResult CheckYourInbox() => View();
     }
 }
  
