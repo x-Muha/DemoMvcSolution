@@ -2,10 +2,12 @@
 using Demo.Presentation.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Demo.Presentation.Controllers
 {
-    public class AccountController(UserManager<ApplicationUser> _userManager) : Controller
+    public class AccountController(UserManager<ApplicationUser> _userManager,
+               SignInManager<ApplicationUser> _signInManager) : Controller
     {
         #region Register
         [HttpGet]
@@ -32,5 +34,33 @@ namespace Demo.Presentation.Controllers
             }
         }
         #endregion
+        #region Login
+        [HttpGet]
+        public IActionResult Login() => View();
+        [HttpPost]
+        public IActionResult Login(LoginViewModel viewModel)
+        {
+            if(!ModelState.IsValid) return View(viewModel);
+            var user = _userManager.FindByEmailAsync(viewModel.Email).Result;
+            if(user != null)
+            {
+                bool flag = _userManager.CheckPasswordAsync(user, viewModel.Password).Result;
+                if(flag)
+                {
+                    var result = _signInManager.PasswordSignInAsync(user, viewModel.Password,
+                                                         viewModel.RememberMe, false).Result;
+                    if (result.IsNotAllowed)
+                        ModelState.AddModelError(string.Empty, "Your Account is not confirmed");
+                    if (result.IsLockedOut)
+                        ModelState.AddModelError(string.Empty, "Your Account is Locked");
+                    if (result.Succeeded)
+                        return RedirectToAction(nameof(HomeController.Index), "Home");
+                }
+            }
+            else   ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
+            return View(viewModel); 
+        }
+        #endregion
     }
 }
+ 
