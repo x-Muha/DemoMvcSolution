@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Demo.BusinessLogic.DataTransferObjects.EmployeeDTOs;
 using Demo.BusinessLogic.Factories;
+using Demo.BusinessLogic.Services.AttachmentService;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Models.EmployeeModel;
 using Demo.DataAccess.Repositories.Interfaces;
 
 namespace Demo.BusinessLogic.Services
 {
-    public class EmployeeService(IUnitOfWork _unitOfWork,IMapper _mapper) :IEmployeeService
+    public class EmployeeService(IUnitOfWork _unitOfWork,IMapper _mapper, IAttachmentService _attachmentService) :IEmployeeService
     {
         public IEnumerable<EmployeeDTO> GetAllEmployees(string? EmployeeSearchName)
         {
@@ -36,18 +37,24 @@ namespace Demo.BusinessLogic.Services
         {
             var employee = _unitOfWork.employeeRepository.GetById(id);
             //Auto Mapping || 2nd Overload <Dest>(object) will detect Src from object (bad performance)
-            //return employee is null? null : _mapper.Map<EmployeeDetailsDTO>(employee);
+            //return employee is null? null : _mapper.Map<EmployeeDetailsDTO>(employee); 
             return employee is null? null : _mapper.Map<Employee,EmployeeDetailsDTO>(employee);
         }
         public int AddEmployee(CreatedEmployeeDTO employeeDTO)
         {
             var employee = _mapper.Map<CreatedEmployeeDTO,Employee>(employeeDTO);
+            if(employeeDTO.Image is not null)
+                employee.ImageName = _attachmentService.Upload(employeeDTO.Image, "Images");
             _unitOfWork.employeeRepository.Add(employee);
             return _unitOfWork.SaveChanges();
         }
         public int UpdateEmployee(UpdatedEmployeeDTO employeeDTO)
         {
-            _unitOfWork.employeeRepository.Update(_mapper.Map<UpdatedEmployeeDTO, Employee>(employeeDTO));
+            var employee = _mapper.Map<UpdatedEmployeeDTO, Employee>(employeeDTO);
+            if (employeeDTO.Image is not null)
+                employee.ImageName = _attachmentService.Upload(employeeDTO.Image, "Images");
+            _unitOfWork.employeeRepository.Update(employee);
+
             return _unitOfWork.SaveChanges();
         }
         public bool DeleteEmployee(int id) //Soft Delete

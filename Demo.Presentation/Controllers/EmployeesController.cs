@@ -4,10 +4,12 @@ using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Models.EmployeeModel;
 using Demo.DataAccess.Models.Shared.Enums;
 using Demo.Presentation.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Presentation.Controllers
 {
+    [Authorize]
     public class EmployeesController(IEmployeeService _employeeService, 
         IWebHostEnvironment environment, ILogger<EmployeesController> Logger) : Controller
     { 
@@ -38,6 +40,7 @@ namespace Demo.Presentation.Controllers
                         Gender = viewModel.Gender,
                         HiringDate = viewModel.HiringDate,
                         DepartmentId = viewModel.DepartmentId,
+                        Image = viewModel.Image
                     };
 
 
@@ -106,7 +109,8 @@ namespace Demo.Presentation.Controllers
                     EmployeeType = viewModel.EmployeeType,
                     Gender = viewModel.Gender,
                     HiringDate = viewModel.HiringDate,
-                    DepartmentId = viewModel.DepartmentId
+                    DepartmentId = viewModel.DepartmentId,
+                    Image = viewModel.Image
                 };
 
 

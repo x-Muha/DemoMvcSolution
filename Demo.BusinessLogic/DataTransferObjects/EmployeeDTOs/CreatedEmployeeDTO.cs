@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Demo.DataAccess.Models.EmployeeModel;
 using Demo.DataAccess.Models.Shared.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace Demo.BusinessLogic.DataTransferObjects.EmployeeDTOs
 {
@@ -36,5 +37,6 @@ namespace Demo.BusinessLogic.DataTransferObjects.EmployeeDTOs
         public Gender Gender { get; set; }
         public EmployeeType EmployeeType { get; set; }
         public int? DepartmentId { get; set; }
+        public IFormFile? Image { get; set; }
     }
 }

@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Demo.BusinessLogic\Demo.BusinessLogic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Files\Images\" />
+  </ItemGroup>
+
 </Project>
