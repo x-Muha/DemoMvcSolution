@@ -17,7 +17,7 @@
 
             <div class="wthree-text">
                 <label class="anim">
-                    <input asp-for="RememberMe" class="checkbox" required>
+                    <input asp-for="RememberMe" class="checkbox">
                     <span>Keep Me Signed In</span>
                 </label>
                 <div class="clear"> </div>
@@ -25,5 +25,6 @@
             <input type="submit" value="SIGNIN">
         </form>
         <p>Don't have an Account? <a asp-action="Register"> Register Now!</a></p>
+        <p><a asp-action="ForgetPassword"> Forgot Password? </a></p>
     </div>
 </div>
