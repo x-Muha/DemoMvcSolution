@@ -1,0 +1,25 @@
+﻿@model RoleViewModel
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class=" p-4 m-4 row">
+
+        <div class="form-group col-12">
+            <label class="col-form-label" asp-for="Id"></label>
+            <input asp-for="Id" class="form-control" readonly />
+        </div>
+        <form asp-action="Edit" method="post" class="form-group col-12">
+            <label class="col-form-label" asp-for="RoleName"></label>
+            <input asp-for="RoleName" class="form-control"  />
+
+            <div class="mt-4 form-group col-3">
+                <button type="submit" class="btn btn-success text-white">Save</button>
+                <i>|</i>
+                <a asp-action="Index" class="btn">Back To Users</a>
+            </div>
+
+        </form>
+
+</div>

@@ -50,8 +50,10 @@ namespace Demo.Presentation
             //2. if Mapper is public we add add Profile without getting it's Assembly
             builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
 
-            builder.Services.AddIdentity<ApplicationUser,IdentityRole>(/*additional options*/)
-                   .AddEntityFrameworkStores<ApplicationDbContext>();       //for validation
+            builder.Services.AddIdentity<ApplicationUser,IdentityRole>()
+                   .AddEntityFrameworkStores<ApplicationDbContext>()
+                   .AddDefaultTokenProviders();       
+
 
             #endregion
 

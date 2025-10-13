@@ -1,0 +1,18 @@
+﻿@model RoleViewModel
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class=" p-4 m-4">
+
+	<partial name="PartialViews/DetailsDeletePartialView" model="Model" />
+        
+        <div class="mt-4 form-group col-3">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning text-white">Edit</a>
+            <i>|</i>
+            <a asp-action="Index" class="btn">Back To Users</a>
+        </div>
+        
+</div>
+
